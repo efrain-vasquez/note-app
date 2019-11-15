@@ -8,12 +8,12 @@ const router = express.Router();
 //cuando visitan la pagina principal de mi aplicacion vas a manejarlo con una funcion que maneje 
 //las peticiones y las respuestas
 router.get('/', (req, res) => {
-    //vas a enviar un texto index
-  res.send('index');
+    //vas a enviar el texto index
+  res.render('index');
 });
 
 router.get('/about', (req, res) => {
-  res.send('about');
+  res.render('about');
 });
 
 module.exports = router;

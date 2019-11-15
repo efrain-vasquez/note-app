@@ -6,7 +6,7 @@
 
 const mongoose = require('mongoose');
 
-mongoose.set('useFindAndModify', false);
+//mongoose.set('useFindAndModify', false);
 //este metedo nos permite conectarnos a una direccion de internet
 //en este caso mongoDB se a instalado dentro de mi propia maquina local por eso le dicimos mongoDB connectate 
 //al localhost y al nombre de la base de datos que es node-notes-db
@@ -14,7 +14,6 @@ mongoose.set('useFindAndModify', false);
 //porque el modolo esta actalizando ultimamente y necesita unas cuantas configuraciones si no te va 
 //dar un error por consola
 mongoose.connect('mongodb://localhost/node-notes-db', {
-  //
   useCreateIndex: true,
   useNewUrlParser: true,
   useFindAndModify: false,

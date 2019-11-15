@@ -1,7 +1,7 @@
 //este archivo es para poder arrancar nuestro servidor es el archivo principal de toda nuestra aplicacion
 const express = require('express');
-const exphbs = require('express-handlebars');
 const path = require('path');
+const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
 const session = require('express-session');
 
