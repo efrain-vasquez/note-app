@@ -1,0 +1,45 @@
+{{!-- esta vista va ser para nosotros poder empezar a listar 
+todas las notas que tenemos dentro de la base de datos --}}
+ 
+ 
+{{!-- vamos a tratar de pintar por pantalla las notas para hacer eso voy a crear aqui dentro de all-note 
+una fila de bootstrap porque dentro de esa fila voy a crear multiples tarjetas y --}}
+<div class="row">
+  {{!-- esas tarjetas van estar dentro de columnas para poder ir colocando multiples notas
+  si las notas desde la base de datos son un arreglo de hecho si vamos al /note estas 
+  notas que estamos obteniendo es un arreglo entonces al igual que los errorers vamos a 
+  recorrerlo con un each. vamos a decir each notes, para todas las notas para el arreglo de notas --}}
+  {{#each notes}}
+  {{!-- voy a empezar a recorrer los y voy a generar columnas de tres de bootstrap 
+  porque multiples columnas de tres porque cada tarjeta va ocupar en una columna de tres dentro 
+  de esta fila --}}
+  <div class="col-md-3">
+    {{!-- entonces aqui voy a colocar una tarjeta --}}
+    <div class="card">
+      {{!-- entonces aqui voy a colocar una tarjeta adentro voy a colocar un card-body    --}}
+      <div class="card-body">
+          {{!-- y adentro voy a colocar un titulo un h4 este titulo o este h4 tendra un clase 
+          llamada card-title para poder identificarlo y aqui adentro de ese titulo 
+          voy a colocar tanto el valor del titulo que me esta pasando la tarjeta. --}}
+        <h4 class="card-title d-flex justify-content-between align-items-center">
+          {{ title }} <a href="/notes/edit/{{_id}}"><i class="fas fa-edit"></i></a>
+        </h4>
+        <p>{{ description }}</p>
+        <!-- DELETE REQUEST -->
+        <form action="/notes/delete/{{_id}}?_method=DELETE" method="POST">
+          <input type="hidden" name="_method" value="DELETE">
+          <button type="submit" class="btn btn-danger btn-block btn-sm">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {{else}}
+  <div class="card mx-auto">
+    <div class="card-body">
+      <h1>Hello {{user.name}}</h1>
+      <p clsss="lead">There are not Notes yet.</p>
+      <a href="/notes/add" class="btn btn-success btn-block">Create One!</a>
+    </div>
+  </div>
+  {{/each}}
+</div>

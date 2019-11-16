@@ -1,0 +1,54 @@
+
+{{!-- si existe errores pues vamos a pintarlos aqui adentro y por cada error por cada mensaje de error que yo tenga 
+pues voy a tratar de recorrer los otra forma en lugar de solo validar los con if es tambien utilizar each
+each es como un forEach entonces es como al mismo tiempo hace un especie de validacion y los recorre si exsite
+esto como decirle si existe un error empieza a recorrer ese arreglo de errores y por cada recorrido pues me
+vas a generar una plantilla de una alerta es decir me vas a generar una alerta de bootstrap
+y vamos a cambiar unas cosas a esta alerta --}}
+{{#each errors }}
+	{{!-- getbootstrap.com vamos a Documentation y luego a Components y luego Alerts
+	y luego Dismissing y hay esta el codigo --}}
+	<div class="alert alert-danger alert-dismissible fade show" role="alert">
+		{{text}}
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+{{/each}}
+
+{{!-- con esto tengo este div que se encarga de central la tarjeta
+.col-md-4.mx-auto --}}
+<div class="col-md-4 mx-auto">
+  <div class="card text-center">
+    <div class="card-header">
+      <h3>New Note</h3>
+    </div>
+    <div class="card-body">
+        {{!-- aqui le decimos al formulario vaz a enviar la peticion a una ruta llamada notes/new-note
+        y lo vaz a enviar a travez del metodo post --}}
+      <form action="/notes/new-note" method="POST">
+      {{!-- como quisiera que todos esos inputs estuvieran un poco separados voy a colocarlos dentro de un form-group --}}
+        <div class="form-group">
+            {{!-- cada input tendra un placeholder pero lo mas importante de cada input es una propiedad llamada name
+            esa propiedad name es la manera que el servidor la va recibir. el servidor lo va recibir con 
+            una propiedad llamada title y el valor de lo que el usario escrito. 
+            como quisiera que este input apenas la pagina carge tuviera este atributo de focus es decir
+            que el cursor ya estuviera pararando en el input le agregamos una propiedad llamada autofocus--}}
+          <input type="text" name="title" class="form-control" placeholder="Title" autofocus/>
+        </div>
+        <div class="form-group">
+            {{!-- la clase form-control se adecuda al tamallno de pantalla --}}
+          <textarea name="description" class="form-control" placeholder="Description"></textarea>
+        </div>
+        <div class="form-group">
+            {{!-- btn-block is para que ocupe todo el ancho disponible --}}
+            {{!-- el tipo submit es para que cuando de un click ejecute el evento 
+            del formulario que es enviar una peticion al servidor --}}
+          <button class="btn btn-primary btn-block" type="submit">
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

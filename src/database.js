@@ -26,3 +26,5 @@ mongoose.connect('mongodb://localhost/node-notes-db', {
   //caso contrario si ocurio un error captura ese error y muestamelo tambien por consola
   .catch(err => console.error(err));
   //para ejecutar esto tenemos que llamarlo desde index.js
+
+  
