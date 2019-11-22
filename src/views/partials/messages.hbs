@@ -1,0 +1,27 @@
+{{!-- este messages.hbs lo que va ser hacer es recorrer este variable global llamada flash o messages 
+que es lo que vamos a colocar aqui adentro pues vamos a colocar tambien alertas de bootsstrap
+podriamos copiarlas pero ya hemos escrito esos anteriormente de hecho si revisamos el views/notes/new-note 
+los mensajes por lo general tan solo son una variable unica es decir no es un arreglo entonces para no 
+recorrer los vamos a utilizar el #if en vez de el #each 
+esto es como decirle si existe un mensaje de satisfactorio pinta una alerta con el texto del mensaje --}}
+
+{{#if success_msg }}
+{{!-- pero el texto del mensaje es el mismo success messages asi que vamos a colocarlo de esta manera
+en otras palabras gracias a este codigo aqui el que esta validando si exsiste un mensaje de exito 
+crea una alerta monstrando el mensaje de exito y como lo utilizamos pues vamos a layout/main.hbs  --}}
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{success_msg}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/if}}
+
+{{#if error_msg }}
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{error_msg}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{{/if}}

@@ -84,6 +84,14 @@ router.post('/notes/new-note', async(req, res) => {
     //con await ahora mi codigo sabe esto de aqui va tomar algun tiempo de ejecucion cuando termine
     //puedes continuar con el resto de codigo que este debajo entonces cuando este terminado el proceso de guardar 
     await newNote.save();
+    //cuando yo estoy agregando una nueva tarea digamos una nueva nota pues yo quisiera mostrarle 
+    //un mensaje del usario que esta creando una nueva nota y todo a salido satisfactorio
+    //para probarlo y ver este mensaje pues tambien al igual como le habiamos hecho con los errores 
+    //nosotros vamos a poder recorrer los pero si recuerdas cuando hicimos esto de los errores 
+    //tuvimos que pasarlo a la vista que estabamos renderizando para poder mostrarlo no vamos 
+    //a tener que hacer eso con flash porque si recuerdas estamos creando una variable global 
+    //entonces a crear la variable global simplemente voy a recorrer este success message   
+    req.flash('success_msg', 'Note Added Successfully');
     //pues aqui debajo voy a en lugar de enviar un ok voy a redireccionar lo a otra vista 
     //voy a rediccionar lo a la vista /notes
     res.redirect('/notes');
@@ -168,6 +176,12 @@ router.put('/notes/edit-note/:id', async (req, res) => {
   await Note.findByIdAndUpdate(req.params.id, {title, description});
   //una vez que se actualice yo quiero rediccionarlo a todas las notas anteriores
   //con res.redirect('/notes') estamos redirigiendo a la lista de todas las notas
+  //el momento que estamos editando una tarea aqui al editar con el PUT vamos a enviar un req.flash()
+  //y necesitamos y si dictamos algo correctamente es decir algo satisfactorio entonces vamos a 
+  //decir success message vamos a querer aqui dentro del flash success message y vamos a colocar aqui 
+  //Note Updated Successfully. entonces tambien vamos a enviar un mensaje de satisfactorio cuando el usario 
+  //actualice algo correctamente
+  req.flash('success_msg', 'Note Updated Successfully');
   res.redirect('/notes');
 });
 
@@ -186,6 +200,8 @@ router.delete('/notes/delete/:id', async (req, res) => {
   //y como es una peticion asincrona necesitamos usar async y await
   //entonces esto lo elimina de la base de datos
   await Note.findByIdAndDelete(req.params.id);
+  //aqui vamos hacer lo miso que arriba pero vamos a cambiar el mensaje a Note Deleted Successfully
+  req.flash('success_msg', 'Note Deleted Successfully');
   //y luego lo voy a redireccionar a la lista de tareas
   res.redirect('/notes');
 });

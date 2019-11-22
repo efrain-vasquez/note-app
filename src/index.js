@@ -4,7 +4,7 @@ const path = require('path');
 const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
 const session = require('express-session');
-
+const flash = require('connect-flash');
 
 // Initializations
 const app = express();
@@ -72,11 +72,25 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }));
-
+//nos permite enviar unos mensajes que los datos estan siendo guardados o editados o eliminados
+app.use(flash());
 
 // Global Variables
 //estos son ciertos dataos que qeremos que toda nuestra applicacion tenga accesible
-
+//cuando estamos enviando mensajes yo quiero que todas las vistas tengan acceso 
+//a un mensaje ya que si el usario navega a otra pagina quiero seguir mostrando ese mensaje
+//a pesar de navegar a una vista que no conozco entonces voy hacer una variable global que almacene
+//esos mensajes flash 
+//para que esto no se quede aqui ya que node.js es un solo hilo esto puede hacer que el navegador 
+//se quede cargando entonces asegurate de colocar el next antes de terminar la funcion para que 
+//luego continue con las siguentes rutas exceder con los siguientes codigos que estan aqui debajo
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  res.locals.user = req.user || null;
+  next();
+});
 
 // routes
 app.use(require('./routes/index'));

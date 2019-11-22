@@ -27,7 +27,13 @@
   <p>Navigation</p>
     <!-- main es una etiqueta que define el contenido principal de la aplicacion 
     tambien le vamos a colocar una clase de bootstrap que se llama container-->
-    <main class="container p-5">
+    <main class="container">
+      {{!-- de messages.hbs venemos aqui y vamos a llamar dentro del contenedor y arriba con un partials, 
+      como llamamos un partials, entre llaves y un signo de mayor y luego el nombre de partials que se llama 
+      messages no necesitamos colocar el nombre de la carpeta porque ya lo habiamos configurado cuando 
+      empezamos a definir como se iba comportar handlebars ya conoce la direccion de partials 
+      esto esta in index.js en la section de settings --}}
+      {{> messages }}
       {{{ body }}}
     </main>
 
