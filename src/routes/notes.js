@@ -120,6 +120,75 @@ router.get('/notes', async (req, res) => {
   res.render('notes/all-notes', { notes });
   });
 
+// Edit Notes
+// vamos a crear una ruta para editar las notas vamos a decir router.get() cuando me pide las ruta
+// /notes/edit pues voy a enviarle un formulario pero para saber que voy a estar lidiando tan solo 
+// una tarea en particular vamos a usar /notes/edit/:id
+// pero como podemos obtener el id no hay problema porque nosotros cuando estamos obteniendo esta tarjeta 
+// con sus datos tambien estamos obteniendo la id porque recuerda que cuando guardamos un dato 
+// nosotros estamos guardando el titulo la descripcion la fecha y el _id que es la id de la especifica tarea
+// cuando te pidan las rutas las /notas /edit /el id de la nota especificamente pues vamos a tomar los nuevos datos
+// pero en este caso cuando el usario de un clic en alguno de los iconos de edit yo voy a renderizar un nuevo
+// formulario para que inicarte los nuevos datos entonces voy a hacer aqui un req y res y voy a escribir 
+router.get('/notes/edit/:id', async (req, res) => {
+  // aqui una funcion que diga res.render() y voy a renderizar una vista que se llama notes/edit-note
+  // lo que voy a enviar aqui dentro de este formulario si el usario tiene que evitar algo el 
+  // tiene que saber la diferencia de lo que a guardado con lo nuevo que quiere cambiar entonces
+  // vamos a pasarle aqui los datos de la nota especificamente es decir si da unclic en el icon de edit 
+  // yo quiero enviarle un formulario con los datos de esa nota especificamente para que vea los datos de la nota
+  // pero para eso tengo que obtenerla pero no hay ningun problema porque como estoy obteniendo el id 
+  // puedo consultar la base de datos para traerme los datos y luego pasarselo a este formulario 
+  // vamos a decir Note quiero buscar un dato por id .findById() y adentro de este id voy a pasarte el 
+  // (req.params.id) lo que estoy haceiendo aqui es pasarle el id que me esta enviando el usario
+  // es decir cuando el usario de un clic en el icono de edit esta enviando un id para esa nota 
+  // y esa id es la que le estoy pasando aqui y de esa manera lo puedo obtener y esto es una consulta 
+  // a la base de datos es tambien codigo asíncrono asi que le digo await y aqui arriba necesita de async 
+   const note = await Note.findById(req.params.id);
+  // una vez se haga la consulta me va devolver la nota entonces la voy a guardar en una constancia 
+  // llamada note cuando me develva la nota lo voy a enviar a este formulario y voy a pasarle esa nota 
+  // entonces con eso le estoy pasando los datos 
+  res.render('notes/edit-note', { note });
+});
+
+//esta ruta se llama /notes/edit-note/:id
+//estoy agregando todos esos valores ocultos y esas consultas simplemente para poder recibir el metodo 
+//PUT tambien lo puedes hacerlo a travez de metodos ajax por ejemplo pero en este caso vamos a utilizar 
+//el mismo formulario html
+//y como estamos utilizando un metodo asincrono usamos async enfrente de el (req, res)
+router.put('/notes/edit-note/:id', async (req, res) => {
+  //como estoy recibiendo desde el req.body valores ya que es un formulario pues voy a obtener 
+  //tanto el titulo en la descripcion entonces voy a guardar en una constante el titulo y la descripcion 
+  const { title, description } = req.body;
+  //aqui voy empezar a guardar o actualizar esos datos. para actualizarlos desde Note que es el modelo 
+  //voy a buscar por id y luego voy a actualizar, .findByIdAndUpdate() es un metodo que me permite buscar 
+  //primero por un id entonces le voy a pasar el id y desde donde lo obtengo desde req.params.id 
+  //y los nuevos datos que quiero realizar que son el titulo y la descripcion
+  //con esto estoy actualizando pero si de nuevo te fijas un poco obseva que es un metodo asincrono
+  //asi que le agregamos await  
+  await Note.findByIdAndUpdate(req.params.id, {title, description});
+  //una vez que se actualice yo quiero rediccionarlo a todas las notas anteriores
+  //con res.redirect('/notes') estamos redirigiendo a la lista de todas las notas
+  res.redirect('/notes');
+});
+
+// Delete Notes
+//si queremos eliminar vamos a tener que usar el metodo delete y para hacerlo 
+//funcional vamos a utilizar tambien un formulario dentro
+//la ruta se va llamar /notes/delete/:id que es el id de la nota que queremos eliminar 
+//tambien vamos a usar un req y res para ponder manejar esa ruta 
+//cada nota tiene un boton delete y yo lo quiero enlazar con un formulario para que pueda enviar
+//una peticion delete 
+router.delete('/notes/delete/:id', async (req, res) => {
+  //con este console.log(req.params.id) podemos ver si estamos recibiendo el id
+  //como estamos recibiendo el id podemos eliminarlo. dicimos que desde el modelo de datos Note
+  //quiero buscar por id y eliminar esa nota. con el metodo .findByIdAndDelete() estoy encontrando
+  //ese id y removiendolo desde la base de datos pero tengo que pasarle el id para que sepa cual va eliminar
+  //y como es una peticion asincrona necesitamos usar async y await
+  //entonces esto lo elimina de la base de datos
+  await Note.findByIdAndDelete(req.params.id);
+  //y luego lo voy a redireccionar a la lista de tareas
+  res.redirect('/notes');
+});
 
 module.exports = router;
 

@@ -1,7 +1,12 @@
 {{!-- esta vista va ser para nosotros poder empezar a listar 
 todas las notas que tenemos dentro de la base de datos --}}
- 
- 
+
+{{!-- esta vista me permite tener tarjetas porque esta está generanda desde la base de datos 
+y aqui yo estoy recorriendo los datos de la base de datos y estoy generando tarjetas --}}
+
+{{!-- a travez de una bibloteca llamada fontawesome.com que es una pagina adonde nosotros 
+podemos obtener una biblioteca para iconos. 
+  --}}
 {{!-- vamos a tratar de pintar por pantalla las notas para hacer eso voy a crear aqui dentro de all-note 
 una fila de bootstrap porque dentro de esa fila voy a crear multiples tarjetas y --}}
 <div class="row">
@@ -21,23 +26,61 @@ una fila de bootstrap porque dentro de esa fila voy a crear multiples tarjetas y
           {{!-- y adentro voy a colocar un titulo un h4 este titulo o este h4 tendra un clase 
           llamada card-title para poder identificarlo y aqui adentro de ese titulo 
           voy a colocar tanto el valor del titulo que me esta pasando la tarjeta. --}}
+          {{!-- vamos a colocar el icono alineado agregando clase de css al card title al h4 le 
+          vamos a agregar la clase display flex justified content between y luego vamos a 
+          agregarle la ultima clase de align items center  --}}
         <h4 class="card-title d-flex justify-content-between align-items-center">
+          {{!-- esto nos cree un icono de un lapiz --}}
+          {{!-- con esto tenemos en nuestra tarjeta para poder editar --}}
+          {{!-- aqui vamos a decirle vas a colocar href el /notes/edit/{{_id}}
+          estamos colocando las doble llaves para poder reutilizar ese id que me esta dando las notas
+          con esto vamos a poder crear rutas para cada tarea especificamente para saber a cual voy a editar --}}
           {{ title }} <a href="/notes/edit/{{_id}}"><i class="fas fa-edit"></i></a>
         </h4>
+        {{!-- pero para poder tambien eliminar vamos a crear aqui debajo del description un boton este
+        tendra una clase llamada btn-danger para el color y btn-block para que ocupe todo el ancho
+        y sera un boton bastante pequeno con btn-sm, y adentro vamos agregar el text delete. --}}
         <p>{{ description }}</p>
         <!-- DELETE REQUEST -->
+        {{!-- vamos a agregar el boton dentro de un formulario para que pueda enviar la peticion delete
+        esto es porque estamos utilizando el metodo methodOverride para poder enviar otros tipos de peticiones
+        y que luego luzca un poco mas moderno el codigo utilizado en los metodos http 
+        este formulario nos va enviar a la ruta del servidor como se llama la ruta del servidor se llama 
+        notes/delete/{{_id}} esta id es la id de las notas
+        entonces este formulario nos va enviar a esta direccion pero tene que enviarnos a travez de un metodo 
+        el metodo sera POST pero la consulta vamos a tener que agregarle es decir 
+        una consula_method que sera igual a DELETE  --}}
         <form action="/notes/delete/{{_id}}?_method=DELETE" method="POST">
+        {{!-- y al igual como habiamos hecho con el editar vamos a tener que 
+        empezar a colocar aqui el valor de el input oculto de el delete es decir aqui dentro del
+        formulario vamos a colocar un input de tipo oculto y vamos a colocarle como el valor del input
+        vamos a colocarle el delete y el nombre si tiene que ser _method para que funciona y adentro
+        de todo esto vamos a colocar el boton --}}
           <input type="hidden" name="_method" value="DELETE">
+          {{!-- como es tipo submit cuando le demos un clic al boton va a ejecutar este formulario 
+          y este formulario ejecuta una peticion delete a travez del methodOverride que reemplazo este POST
+          por un metodo DELETE --}}
           <button type="submit" class="btn btn-danger btn-block btn-sm">Delete</button>
         </form>
       </div>
     </div>
   </div>
+  {{!-- que pasa si en mi base de datos no hay notas aun podria mostrar tambien una tarjeta entonces aqui
+  al igual de esta validacion de handle bars o este sintaxis de handle bars que esta arriba, 
+  en lugar de recorrer las notas podriamos hacer con una especie de else es decir si exsiten las notas 
+  recorren las caso contrario vamos a escribir aqui una sintaxis de handle bars caso contrario
+  a travex de un else si no exsisten notas si no hay nada de recorrer pues crea una tarjets y esta tarjeta 
+  vamos a darle una clase que sea centrada que sea mx auto y adentro vamos a colocar un card-body y
+  adentro de este car-body vamos a colocar un texto que diga there are not Notes yet. 
+  Todo esto lo estamos haceiendo para que el usario se entere que tiene que ingresar algo. --}}
   {{else}}
   <div class="card mx-auto">
     <div class="card-body">
       <h1>Hello {{user.name}}</h1>
+      {{!-- la clase lead es para que resalte --}}
       <p clsss="lead">There are not Notes yet.</p>
+      {{!-- aqui estamos redireccionando al usario a el formulario que agrega notas.
+      la ruta /notes/add es para enviarlo al formulario y tambien con un boton para crear una nota  --}}
       <a href="/notes/add" class="btn btn-success btn-block">Create One!</a>
     </div>
   </div>

@@ -1,0 +1,54 @@
+{{!-- aqui vamos a crear la vista de notes/edit-note o vamos a crear un formulario que nos muestre los datos --}}
+
+
+<div class="col-md-4 mx-auto">
+  <div class="card">
+    {{!-- un card-header para tener un titulo de la tarjeta --}}
+    <div class="card-header">
+      <h3>Edit Note</h3>
+    </div>
+    <div class="card-body">
+      {{!-- si cuando hacemos clic en el boton save de el view /notes/edit/id: no va a enviar a ningun lugar 
+      el formulario si no le damos una valor a action="" vamos a agregarle una direccion. 
+      esta direccion tambien vamos a tener que crearlas del servidor y se va llamar de la siguente manera 
+      /notes/edit-note/la nota que quiero editar exactamente igual como lo habiamos hecho para obtener
+      este formulario entonces voy a decir desde la nota que me esta enviando el servidor quiero colocar aqui 
+      el id y adicional a esto quiero enviarlo atravez del metodo POST 
+      si hacemos un right clic en el raton podemos abrir el source page y ver este note._id 
+      adicional tambien voy a colocar aqui dentro de las rutas una consulta es decir adicional 
+      a esta ruta voy a colocar un signo de interrelacion que quiere decir de una consulta y voy a
+      colocarle como metodo el valor PUT ahora con esto estamos enviando una peticion PUT 
+      entonces el formulario aunque veamos el metodo POST aqui la va enviar a travez del metodo PUT --}}
+        <form action="/notes/edit-note/{{note._id}}?_method=PUT" method="POST">
+        {{!-- para utilizar el metodo put lo que vamos a hacer es que dentro de edit-note vamos a crear un
+        input oculto este input sera utilizado para que el servidor sepa que vamos enviar un metodo put 
+        el usario no va poder ver nada a menos que revie el codigo pero en realidad esto sirve para
+        funcionamento interno de nuestra aplicacion. vamos a escribir aqui un name y este name es necesario
+        es la manera que el servidor va a revisar por este input el name de este input sera _method
+        como va a poder revisarlo vamos a index.js y vamos a tener que agregar un middleware
+        llamado methodOverride. con el value="PUT" estamos dicendo que lo valide como una peticion PUT  --}}
+        <input type="hidden" name="_method" value="PUT">
+        {{!-- este formulario me va enviar a otra ruta que por ahora no lo voy a colocar pero 
+        voy a utilizar los inputs que va poer ver el usario para poder cambiar la nota para poder editarla
+        para que este separado voy a colocarlo tambien dentro de un form-group --}}
+        <div class="form-group">
+          {{!-- form-control es una clase de bootstrap 
+          el value va ser para que el usario pueda ver el valor anterior que a tipeado entonces 
+          vamos a colocar value y vamos a colocarle aqui de entre dobles llaves lo que me esta enviando 
+          el servidor voy a decirle el servidor me esta enviando un objecto llamado note y de ese note 
+          tan solo quiero el titulo y vamos hacer lo mismo para el description   --}}
+          <input type="text" name="title" class="form-control" value="{{note.title}}"/>
+        </div>
+        <div class="form-group">
+          <textarea name="description" class="form-control">{{note.description}}</textarea>
+        </div>
+        {{!-- finalmente quiero colocar un boton asi que voy a escribir otro form-group y voy a crear un boton --}}
+        <div class="form-group">
+          <button class="btn btn-primary btn-block" type="submit">
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

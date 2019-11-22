@@ -58,6 +58,8 @@ app.use(express.urlencoded({extended: false}));
 //este middleware de express nos sirve para que los formularios 
 //puedan enviar otros tipos de metodos no soloamente get y post sino otros metodos como put y delete
 //y para hacerlo vamos a enviar un input oculto con un nombre '_method'
+//este modulo se encarga de revisar por el input oculto que se encuentra en la ruta 
+//router.put(notes/edit-note/:id)
 app.use(methodOverride('_method'));
 //un modolo de session de express
 //tambien se configura con un objecto
