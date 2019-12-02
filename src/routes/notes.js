@@ -174,14 +174,14 @@ router.put('/notes/edit-note/:id', async (req, res) => {
   //con esto estoy actualizando pero si de nuevo te fijas un poco obseva que es un metodo asincrono
   //asi que le agregamos await  
   await Note.findByIdAndUpdate(req.params.id, {title, description});
-  //una vez que se actualice yo quiero rediccionarlo a todas las notas anteriores
-  //con res.redirect('/notes') estamos redirigiendo a la lista de todas las notas
   //el momento que estamos editando una tarea aqui al editar con el PUT vamos a enviar un req.flash()
   //y necesitamos y si dictamos algo correctamente es decir algo satisfactorio entonces vamos a 
   //decir success message vamos a querer aqui dentro del flash success message y vamos a colocar aqui 
   //Note Updated Successfully. entonces tambien vamos a enviar un mensaje de satisfactorio cuando el usario 
   //actualice algo correctamente
   req.flash('success_msg', 'Note Updated Successfully');
+  //una vez que se actualice yo quiero rediccionarlo a todas las notas anteriores
+  //con res.redirect('/notes') estamos redirigiendo a la lista de todas las notas
   res.redirect('/notes');
 });
 
@@ -207,4 +207,5 @@ router.delete('/notes/delete/:id', async (req, res) => {
 });
 
 module.exports = router;
+
 

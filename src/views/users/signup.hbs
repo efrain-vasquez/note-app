@@ -1,1 +1,67 @@
-<h1>Register</h1>
+{{!-- esta es la vista de views/users/signup
+vamos a crear un formulario para que el usuario se pueda registrar --}}
+
+{{!-- mi formulario estara dentro de la tarjeta --}}
+<div class="row">
+  {{!-- y va a ocupar una columna de 4 y estara centrado --}}
+  <div class="col-md-4 mx-auto">
+    {{!-- adentro vamos a colocar una tarjeta --}}
+    <div class="card">
+      {{!-- que estara dividido por dos partes un card-header y un card-body
+      en el card-header vamos a colocar un titulo llamado account register para que registren su cuenta --}}
+      <div class="card-header">
+        Account Register 
+      </div>
+      {{!-- en el card-body vamos a colocar un formulario. y vamos a colocar algunos inputs
+      que esten separados por un div con una clase form-group. esta clase simplemente para separar
+      los inputs de un formulario --}}
+      <div class="card-body">
+        {{!-- como este formulario va enviar sus datos a esta ruta /users/signup y va
+        a apuntar personas o users podemos escribir aqui adentro a travez de una /users/signup 
+        y vamos a colocar tambien a lado el metodo que va utilizar el metodo POST
+        ya que de esta manera le vamos a enviar los datos a travez de un POST --}}
+        <form action="/users/signup" method="POST">
+          {{!-- primero voy a colocar un formulario de tipo texto que sea una clase form-control para estilizar este
+          input vamos a colocarle tambien un nombre y esto es importante de esta manera el servidor lo va recibir 
+          y el nombre de este valor que va insertar el usario sera de name es decir voy a pedirle el nombre al 
+          usario para que se entere voy a colocar un placeholder que diga name tambien voy a colocar un value que 
+          tenga el miso valor que lo que inserto el usario para que no lo tenga que insertar todo de nuevo  --}}
+          <div class="form-group">
+            <input type="text" 
+            class="form-control" 
+            name="name" 
+            placeholder="Name" 
+            value="{{name}}">
+          </div>
+          {{!-- este es para el correo electronico --}}
+          <div class="form-group">
+            <input type="email" 
+            class="form-control" 
+            name="email" 
+            placeholder="Email" 
+            value="{{email}}">
+          </div>
+          {{!-- este es para la contrasena --}}
+          <div class="form-group">
+            <input type="password" 
+            class="form-control" 
+            name="password" 
+            placeholder="Password" 
+            value="{{password}}">
+          </div>
+          {{!-- y este sera para confirmar la contrasena --}}
+          <div class="form-group">
+            <input type="password" 
+            class="form-control" 
+            name="confirm_password" 
+            placeholder="Confirm Password" 
+            value="{{confirm_password}}">
+          </div>
+          <button class="btn btn-primary btn-block">
+            Signup 
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

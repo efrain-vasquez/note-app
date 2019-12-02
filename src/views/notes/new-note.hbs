@@ -1,3 +1,7 @@
+    {{!-- algo importante nosotros ya no tenemos que volver a pintar el error o volver a empezar a 
+    recorrer el error en la vista de /users/signup porque nosotros habiamos escrito en /notes/new-note
+    al momento de agregar una nueva nota habia escrito un mensaje para un error entonces voy a crear 
+    un partials con este codigo entonces voy a cortarlo y voy a colocarlo en /partials/errors --}}
 
 {{!-- si existe errores pues vamos a pintarlos aqui adentro y por cada error por cada mensaje de error que yo tenga 
 pues voy a tratar de recorrer los otra forma en lugar de solo validar los con if es tambien utilizar each
@@ -5,16 +9,20 @@ each es como un forEach entonces es como al mismo tiempo hace un especie de vali
 esto como decirle si existe un error empieza a recorrer ese arreglo de errores y por cada recorrido pues me
 vas a generar una plantilla de una alerta es decir me vas a generar una alerta de bootstrap
 y vamos a cambiar unas cosas a esta alerta --}}
-{{#each errors }}
+
+{{!-- {{#each errors }} --}}
+
 	{{!-- getbootstrap.com vamos a Documentation y luego a Components y luego Alerts
 	y luego Dismissing y hay esta el codigo --}}
-	<div class="alert alert-danger alert-dismissible fade show" role="alert">
+
+	{{!-- <div class="alert alert-danger alert-dismissible fade show" role="alert">
 		{{text}}
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 		</button>
 	</div>
-{{/each}}
+{{/each}} --}}
+
 
 {{!-- con esto tengo este div que se encarga de central la tarjeta
 .col-md-4.mx-auto --}}

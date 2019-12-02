@@ -72,7 +72,11 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }));
+//para poder usar connect-flash necesitamos utilizarlo aqui como middleware
 //nos permite enviar unos mensajes que los datos estan siendo guardados o editados o eliminados
+//pero para que toda las vistas tengan acceso a esos mensajes  ya que si el usario navega 
+//a otro pagina quiero siguir mostrando ese mensaje a pesar de navegar a una vista que no conozco
+//entonces hacemos una variable global que almacene esos mensajes flash
 app.use(flash());
 
 // Global Variables
