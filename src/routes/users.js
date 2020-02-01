@@ -1,7 +1,9 @@
 //necesitamos que cada usario puede crear sus notas personales y de esa manera sus notas no 
 // interieran con las de otros usarios es decir crear como un especie de cuenta en el que cada 
 // usuario puede tener sus propoias notas y sin ver las notas del resto. para hacer eso primero
-// tenemos que registrar un usuario nuevo y 
+// tenemos que registrar un usuario nuevo. entonces vamos a ir a las rutas de nuestro servidor en el
+// archivo users aqui habiamos creado dos rutas uno para hacer ingresar al usario para acer un login (signin)
+// y el otro para ser un registro (signup)
 
 
 //aqui el usario va poder acceder a las url's adonde el se puede autenticar y registrar el usario
@@ -10,6 +12,9 @@
 const express = require('express');
 //este router nos permite tener un objecto que nos puede facilitar la creacion de rutas del servidor
 const router = express.Router();
+
+const passport = require('passport');
+
 //para usar el modulo de User.js vamos a tener que instanciar el modulo el mudulo del usario
 //este constante user es el modelo de datos y como es el modelo de datos voy a poder utilizarlo 
 //para guardar datos nuevos
@@ -20,8 +25,36 @@ router.get('/users/signin', (req, res) => {
     res.render('users/signin');
   });
 
+//nuestra autenticacion esta terminada pero tenemos tan solo el metodo
+//necesitamos crear las rutas que puedan autenticar esos datos como ya estan definidos simplemente los llamamos
+//aqui vamos a comenzar a utilizar el metodo post vamos a decir desde la ruta /users/signin a travez del metodo
+//post voy a tratar de autenticar el usario y aqui no voy a tener que escribir una fucion simplemente voy a 
+//importar passport nuevamente porque estoy importando passport nuevamente aqui, 
+//porque recuerda que hemos creado una estrategia de autenticacion una local strategy y entonces vamos a utilizar
+//passport.authenticate y aqui adentro le voy a dar el nombre de autenticacion 
+//como se llama el nombre de autenticacion si vamos a passport.js que esta en config vemos que por defecto
+//este lo coloc el nombre del local entonces vamos a decirle la manera que se va autenticar el usario es con local
+//y a darle esto de aqui el va aplicar la funcion que hemos escrito en passport.use en el archivo config
+//y luego lo va almacenar en una sesion y por eso que nosotros nos evitamos ese trabajo porque passport solo
+//lo va ser por nosotros adicional a esto cuando se autentica puede pasar algunas cosas puede que el usario 
+//sea correcto puede que el usario es insertado datos mal entonces nosotros vamos a tratar de darle o decirle 
+//que es lo que debe de hacer passport a donde lo debe redireccionar 
+router.post('/users/signin', passport.authenticate('local', { 
+  //le voy a decir si el usario me esta enviando su contrasena y su email correcto entonces es un successRedirect
+  //entonces lo voy a redireccionar a las notas para que pueda ingresar sus notas y que pueda empezar agregar
+  //y empiece a crear datos
+  successRedirect: '/notes',
+  //luego puede pasar un proceso contrario un failureRedirect que pasa si el usario me esta insertando una contrsena
+  //y un correo mal pues lo voy a redireccionar al /users/signin nuevamente para que se vuelva registrar quizas
+  //lo hizo mal o quizas se equivoco 
+  failureRedirect: '/users/signin',
+  //finalmente voy a pasarle un dato mas llamado failureFlash para que sirve esto para que nosotros entre esos
+  //autenticacion podemos enviar estos mensajes flash y le decimos true. simplemente guardamos y con esto tenemos 
+  //nuestra autenticacion
+  failureFlash: true
+}));
 
-  // necesitamos que cad usario puede crear sus notas personales y que de esa manera sus notas 
+  // necesitamos que cada usario puede crear sus notas personales y que de esa manera sus notas 
   // no interfieran con las notas de otros usarios es decir crear como un especie de cuenta en el que 
   // cada usario puede tener sus propias notas y sin ver las notas del resto entonces para ser eso 
   // primero tenemos que registrar un usario nuevo y esto lo hacemos aqui en routes/users
@@ -97,13 +130,13 @@ router.post('/users/signup', async (req, res) => {
     const emailUser = await User.findOne({email: email});
     // y aqui lo voy a comprobar si email existe es decir si a encontrado una coincidencia con el correo 
     if(emailUser) {
-      // pues voy a enviar un req.flash() un mensaje de flash un mensaje de pantalla que le diga 
+      // pues voy a enviar un req.flash() un mensaje de flash un mensaje por pantalla que le diga 
       // 'error_msg' y como valor le voy a decir 'The Email is already in use!'
       req.flash('error_msg', 'The Email is already in use');
       // y tambien lo vamos a redireccionar de nuevo a la misma vista users/signup para que nuevamente
       // vuelva a insartar los datos 
       res.redirect('/users/signup');
-    } else {
+    }
     // una vez que todo sea validado vamos a guardar los datos. no los podemos guardar en Note.js porque este 
     // es tan solo el esquema para las notas vamos a crear una esquema mas y esta esquema se va llamar 
     // user.js y al iguar que las notas vamos a tener que crear un esquema desde cero
@@ -115,26 +148,37 @@ router.post('/users/signup', async (req, res) => {
     const newUser = new User({name, email, password});
     // con este nuevo usario que es lo que voy hacer pues guardar lo y esto de nuevo va tomar su tiempo 
     // entonces le voy a decir await y a la funcion principal le voy a dar la palabra async
-    // pero necisito guardar la contrasena cifrada y la guardo de esta manera le digo newUser.encryptPassword()
+    // entonces con esto me estoy guardando mi usario, pero paso algo aqui no estoy guardando la contrasena cifrada
+    // pero necisito guardar la contrasena cifrada, entonces la guardo de esta manera le digo newUser.encryptPassword()
     // y aqui adentro le voy a pasar la contrasena y esto como va tomar su tiempo le voy a decirle await
     // porque el momento de poder cifrar la contrasena va tomar su tiempo, pues voy a almacenarlo 
     // en el mismo lugar usando newUser.password. 
-    // es decir yo voy a crear un objecto con los datos que le pasamos a la instancia de new User 
+    // es decir yo voy a crear un objecto con los datos que le pasamos a la instancia de newUser 
     // me va crear un objecto de newUser
     // luego de ese objecto su propiedad password lo voy a reemplazar por la contrasena cifrada
     // utilizando el metodo encryptPassword() 
     newUser.password = await newUser.encryptPassword(password);
-    //finalmente lo voy a guardar y cuando se guardar lo
+    //finalmente lo voy a guardar y cuando se guarde
     await newUser.save();
-    // y voy a enviar un mesaje flash a la aplicacion es decir un mensaje que sea 'success_message',
+    // le voy a enviar un mesaje flash a la aplicacion es decir un mensaje que sea 'success_message',
     // y que diga 'You are registered'
     req.flash('success_msg', 'You are registered');
     // y al final vamos a redireccionarlo al users/signin para que pueda ingresar a la aplicacion
     // pues ya que esta registrado lo regresamos al login
     res.redirect('/users/signin');
-    }
   }
 });
+
+//cuando pidan la ruta /users/logout vamos a hacer una funcion (req, res) es decir un manejador de funciones
+//y lo que vamos hacer aqui es simplemente utilizar un metodo que viene desde passport que nos permite terminar
+//con la sesion
+router.get('/users/logout', (req, res) => {
+  req.logout();
+  req.flash('success_msg', 'You are logged out now.');
+  //y cuando termine la sesion voy a redireccionar hacia la pagina de /users/signin
+  res.redirect('/users/signin');
+});
+
 
 module.exports = router;
 

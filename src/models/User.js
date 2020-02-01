@@ -19,7 +19,7 @@ const UserSchema = new Schema({
   // si la fetcha de creacion no la quieres al momento que mongoDB guarda el id de cada usario ese _id
   // que se crea por cada documento ese de alguna manera tiene la fecha de creacion asi que tampoco 
   // necesitas agregarlo si no quieres. pero para ir probabdo algunos otros tipos de datos pues vamos a 
-  // utilizar la fecha. este sera type: ate y de nuevo al igual que las notas vamos a decir default: Date.now
+  // utilizar la fecha. este sera type: Date y de nuevo al igual que las notas vamos a decir default: Date.now
   date: { type: Date, default: Date.now }
 });
 
@@ -31,7 +31,8 @@ const UserSchema = new Schema({
 // este metodo va recibir una contrasena y nos va retornar la contrasena cifrada
 UserSchema.methods.encryptPassword = async (password) => {
   // lo que voy hacer con esta contrasena es cifrar la. voy a cifrar a travez de un modolo que se llamado bycrypt.js
-  // que esta en nuestro en package.json. este modulo lo podemos utilizar de manera asincrono tambien es decir es igual 
+  // que esta en nuestro en package.json. este modolo tiene un algoritmo que nosotros podemos utilizar para cifrar contrasenas
+  // este modulo lo podemos utilizar de manera asincrono tambien es decir es igual 
   // que la base de datos que toma su tiempo para generar o para hacer una tarea. bcrypt tambien puede ser asincrono
   // genSalt es para generar un hash y le digo cuantas veses quiero aplicar el algoritmo le digo aplicalo 10 veces
   // como este sera un metodo asincrono le voy a decir await y arriba le colocamos la palabra async
@@ -50,7 +51,7 @@ UserSchema.methods.encryptPassword = async (password) => {
 // pero eso no es todo si la contrasena esta cifirada en nuestra base de datos luego el usario como 
 // se va poder login ya que la contrasena es distinta de lo que el usario va insartar pues 
 // ningun problema porque este mismo modolo me provee comparar comtrasenas la contrasena 
-// que me de el usario con la contrasena cifrada. lo que hace es volver a cifrar lo 
+// que me de el usario con la contrasena cifrada. de manera practica lo que hace es volver a cifrar lo 
 // es decir lo que el usario ingresa lo va volvera a cifrar y lo va comparar lo que ha cifrado con lo que tengo 
 // en la base de datos. 
 // este metodo va tomar la contrasena  y lo va comparar con lo que tengo en la base de datos 

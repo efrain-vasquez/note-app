@@ -23,11 +23,12 @@
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-    
-  <p>Navigation</p>
+  {{!-- para no colocar todo el codigo de la navegacion aqui vamos a utilizar otro partials 
+  entonces voy a ir a partials y voy a crear un archivo llamado --}}
+  {{> navigation}}
     <!-- main es una etiqueta que define el contenido principal de la aplicacion 
     tambien le vamos a colocar una clase de bootstrap que se llama container-->
-    <main class="container">
+    <main class="container p-4">
       {{!-- de messages.hbs venemos aqui y vamos a llamar dentro del contenedor y arriba con un partials, 
       como llamamos un partials, entre llaves y un signo de mayor y luego el nombre de partials que se llama 
       messages no necesitamos colocar el nombre de la carpeta porque ya lo habiamos configurado cuando 

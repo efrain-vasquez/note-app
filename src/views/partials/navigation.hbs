@@ -1,0 +1,56 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  {{!-- ponemos todo el codigo dentro de un container para que quede centrado --}}
+ <div class="container">
+  <a class="navbar-brand" href="/">Notes App</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" 
+  data-target="#navbarNav" aria-controls="navbarNav" 
+  aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/about">About</a>
+      </li>
+    </ul>
+    {{!-- lo importante de todo esto en realidad no es mostrar el mensaje Hola sino que al momento que estamos teniendo
+    ese usario como variable global yo puedo utilizarlo para mostrar determinadas rutas es decir si el usario
+    ya esta logueado no deberia mostrar en la ruta SignIn y SignUp ya que ya esta logueado si por el contrario
+    no esta logueado no le deberia mostrar estas rutas de poder agregar notas porque no esta logueado
+    y es lo que queremos validar para hacer esto vamos ir a las views/partials/navigation.hbs 
+    y vamos a cambiar unas cosas por ejemplo el partials es el encargado de poder validar estas partes de si el usario 
+    puede ver determinadas rutas o no pero recuerda esto es tan solo para que el usario pueda ver cosas al final el 
+    puede tipear por pantalla o puede tipear por la url es todas las rutas y va poder ingresar es por eso que 
+    hemos utilizado password para asegurar esas rutas  --}}
+     <ul class="navbar-nav ml-auto">
+       {{#if user}}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" 
+          role="button" data-toggle="dropdown" 
+          aria-haspopup="true" aria-expanded="false">
+            Notes
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/notes">All Notes</a>
+            <a class="dropdown-item" href="/notes/add">Add Notes</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/users/logout">Logout</a>
+          </div>
+        </li>
+       {{else}}
+        <li class="nav-item">
+          <a class="nav-link" href="/users/signin">SignIn</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/users/signup">SignUp</a>
+        </li>
+       {{/if}}
+    </ul>
+  </div>
+ </div> 
+</nav>
+
+

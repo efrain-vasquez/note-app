@@ -10,9 +10,25 @@ const router = express.Router();
 //Note quiero actualizar un nuevo dato .update
 //Note quiero eliminar un nuevo dato .delete
 //gracias a este Note yo voy a poder utilizar sus metodos para guardar datos generar un nuevo dato etcetera
+//Models
 const Note = require('../models/Note');
 
-router.get('/notes/add', (req, res) => {
+
+// Helpers
+ 
+//la funcion helpers esta definida pero no la estamos utilizando. aqui vamos a empezar a asegurar estas rutas
+//entonces traernos ese helpers vamos a decir const { } desde el modulo llamado require() vamos a subir un nivel ..
+//desde la carpeta llamada helpers quiero ese archivo llamado auth y desde ahi vamos a usar su metodo llamado
+//isAuthenticated
+//y quien va usar este middleware, cada ruta que yo quiero asegurar 
+const { isAuthenticated } = require('../helpers/auth');
+//podra escribir una ruta aqui arriba para poder asegurar que esta autenticada o no pero este la forma mas sencilla
+
+// New Note
+//esto lo que hace lo siguiente si el usario visita esta ruta vamos hacer esa validacion si esta logueado o no 
+//si esta logueado va continuar con la siguente funcion si no esta logueado lo va redireccionar a una ventana
+//de loggeo, es por eso que lo coloco antes de que se procese algo y lo mismo para el resto de rutas aqui 
+router.get('/notes/add', isAuthenticated, (req, res) => {
   res.render('notes/new-note');
 });
 
@@ -25,7 +41,7 @@ router.get('/notes/add', (req, res) => {
 //cada prpiedad en una constante o variable a partir de un objecto
 //la palabra async le dice a la funcion aqui adentro es abran procesos asincronos entonces yo
 //para identificar esos procesos asincronos simplemente le agrego una palabra a ese proceso que es await
-router.post('/notes/new-note', async(req, res) => {
+router.post('/notes/new-note', isAuthenticated, async(req, res) => {
   //nosotros tenemos req.body que es un objecto si queremos el titulo desde req.body, entre llaves de ese objecto
   //solo quiero el title y tambien el description desde req.body y a obtenerlos pues ahor puedo guardarlos
   const { title, description } = req.body;
@@ -101,7 +117,7 @@ router.post('/notes/new-note', async(req, res) => {
 //esta otra ruta sera encargada de consultar todos los datos desde la base de datos 
 //entonces cuando guardo un nuevo dato luego el se mostrara al usuario esa vista con la lista de los 
 //datos guardados dentro de la base de datos 
-router.get('/notes', async (req, res) => {
+router.get('/notes', isAuthenticated, async (req, res) => {
   //lo que podemos hacer partir de aqui es consultar el base de datos usando esta ruta
   //tenemos ya elmodelo note que nos permite operar con la base de datos este es el esquema entonces
   //entonces yo le digo de las notas que tengo en la base de datos quiero buscar toda las bases todos 
@@ -138,7 +154,7 @@ router.get('/notes', async (req, res) => {
 // cuando te pidan las rutas las /notas /edit /el id de la nota especificamente pues vamos a tomar los nuevos datos
 // pero en este caso cuando el usario de un clic en alguno de los iconos de edit yo voy a renderizar un nuevo
 // formulario para que inicarte los nuevos datos entonces voy a hacer aqui un req y res y voy a escribir 
-router.get('/notes/edit/:id', async (req, res) => {
+router.get('/notes/edit/:id', isAuthenticated, async (req, res) => {
   // aqui una funcion que diga res.render() y voy a renderizar una vista que se llama notes/edit-note
   // lo que voy a enviar aqui dentro de este formulario si el usario tiene que evitar algo el 
   // tiene que saber la diferencia de lo que a guardado con lo nuevo que quiere cambiar entonces
@@ -163,7 +179,7 @@ router.get('/notes/edit/:id', async (req, res) => {
 //PUT tambien lo puedes hacerlo a travez de metodos ajax por ejemplo pero en este caso vamos a utilizar 
 //el mismo formulario html
 //y como estamos utilizando un metodo asincrono usamos async enfrente de el (req, res)
-router.put('/notes/edit-note/:id', async (req, res) => {
+router.put('/notes/edit-note/:id', isAuthenticated, async (req, res) => {
   //como estoy recibiendo desde el req.body valores ya que es un formulario pues voy a obtener 
   //tanto el titulo en la descripcion entonces voy a guardar en una constante el titulo y la descripcion 
   const { title, description } = req.body;
@@ -192,7 +208,7 @@ router.put('/notes/edit-note/:id', async (req, res) => {
 //tambien vamos a usar un req y res para ponder manejar esa ruta 
 //cada nota tiene un boton delete y yo lo quiero enlazar con un formulario para que pueda enviar
 //una peticion delete 
-router.delete('/notes/delete/:id', async (req, res) => {
+router.delete('/notes/delete/:id', isAuthenticated, async (req, res) => {
   //con este console.log(req.params.id) podemos ver si estamos recibiendo el id
   //como estamos recibiendo el id podemos eliminarlo. dicimos que desde el modelo de datos Note
   //quiero buscar por id y eliminar esa nota. con el metodo .findByIdAndDelete() estoy encontrando

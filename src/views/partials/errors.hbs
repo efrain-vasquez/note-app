@@ -1,9 +1,18 @@
+{{!-- ahora para validar lo vamos a hacer aqui en error esta validacion vamos a decir si existe una
+variable global llamada error significa que passport me tiene un error que mostrar  --}}
+{{#if error }}
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{error}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+{{/if}}
 
 {{!-- algo importante nosotros ya no tenemos que volver a pintar el error o volver a empezar a 
     recorrer el error en la vista de /users/signup porque nosotros habiamos escrito en /notes/new-note
     al momento de agregar una nueva nota habia escrito un mensaje para un error entonces voy a crear 
     un partials con este codigo. entonces voy a cortarlo y voy a colocarlo en /partials/errors --}}
-
 {{#each errors}}
   <div class="alert alert-danger alert-dismissible fade show" role="alert">
     {{text}}

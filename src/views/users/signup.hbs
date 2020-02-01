@@ -26,6 +26,9 @@ vamos a crear un formulario para que el usuario se pueda registrar --}}
           y el nombre de este valor que va insertar el usario sera de name es decir voy a pedirle el nombre al 
           usario para que se entere voy a colocar un placeholder que diga name tambien voy a colocar un value que 
           tenga el miso valor que lo que inserto el usario para que no lo tenga que insertar todo de nuevo  --}}
+          {{!-- para ver los valores o es decir lo que escribio el usario en los inputs 
+          dentro del propio input voy a colocar un valor value que se igual al valor name para 
+          que se quede el valor o es decir voy a volver a pintar los datos que me esta dando el servidor --}}
           <div class="form-group">
             <input type="text" 
             class="form-control" 
@@ -54,7 +57,7 @@ vamos a crear un formulario para que el usuario se pueda registrar --}}
             <input type="password" 
             class="form-control" 
             name="confirm_password" 
-            placeholder="Confirm Password" 
+            placeholder="Password" 
             value="{{confirm_password}}">
           </div>
           <button class="btn btn-primary btn-block">
