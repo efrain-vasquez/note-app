@@ -26,6 +26,8 @@
     puede tipear por pantalla o puede tipear por la url es todas las rutas y va poder ingresar es por eso que 
     hemos utilizado password para asegurar esas rutas  --}}
      <ul class="navbar-nav ml-auto">
+       {{!-- vamos a comprobar vamos a decir lo siguiente vamos a venir aqui debajo y vamos a decir si el usario 
+       existe es decir se esta autenticado pues vamos a tratar de mostrar determinadas rutas. --}}
        {{#if user}}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" 
@@ -40,6 +42,8 @@
             <a class="dropdown-item" href="/users/logout">Logout</a>
           </div>
         </li>
+        {{!-- pero si el usuario no existe es decir se no es autenticado vamos a mostrar las opcione 
+        de poder ingresar o registrarse --}}
        {{else}}
         <li class="nav-item">
           <a class="nav-link" href="/users/signin">SignIn</a>

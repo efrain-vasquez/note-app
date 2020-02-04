@@ -96,6 +96,12 @@ router.post('/notes/new-note', isAuthenticated, async(req, res) => {
     //con esto ya tengo una nota nueva y puedo amacenarla en una constante llamada newNote entonces este
     //newNote es mi tarea nueva o mi nota nueva. pero todavia no esta guardada en la base de datos
     const newNote = new Note({ title, description });
+    //continuacion de models/Note.js
+    //aqui justo al momento que antes de guardarlo voy a decir lo siguiente newNote.user es igual es decir 
+    //esta propiedad user es igual al req.user.id porque estoy utilizando este req.user.id  porque requerda
+    //al momnento que passport a autenticado el usuario lo esta guardando dentro de req.user todo los datos
+    //del usuario pero en este caso yo tan solo quiero el id para enlazarlo con la nota 
+    newNote.user = req.user.id;
     //con esto se guarda en la base de datos
     //con await ahora mi codigo sabe esto de aqui va tomar algun tiempo de ejecucion cuando termine
     //puedes continuar con el resto de codigo que este debajo entonces cuando este terminado el proceso de guardar 
@@ -134,7 +140,11 @@ router.get('/notes', isAuthenticated, async (req, res) => {
   //aqui en este find() yo puedo es digamos aplicar una funcion de sort() para que se ordene de determinada
   //manera vamos a decir aqui yo quiero que se ordene por fecha de creacion de manera descendente es decir 
   //de mayor a menor 
-  const notes = await Note.find().sort({date: 'desc'});
+  //en donde estoy alistando todas las nptas que es aqui en este /notes que esta arriba voy a aplicar una
+  //al momento de buscar una consulta voy a decir de la siguente manera si voy a buscar todas las notas
+  //tan solo traeme las notas que coincidan con el user.id es decir con esta propiedad user de todas las
+  //notas tan solo quiero las que coincidan con las que el usuario se a autenticado 
+    const notes = await Note.find({user: req.user.id}).sort({date: 'desc'});
   //entonces voy a renderizar una nueva vista. voy a ir a mi carpeta views y aqui 
   //voy a decirle renderiza desde la carpeta notes el archivo llamado all-notes
   //y pasale los datos de las notas y para eso voy a utilizar un objecto

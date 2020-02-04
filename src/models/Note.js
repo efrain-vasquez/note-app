@@ -18,7 +18,17 @@ const NoteSchema = new Schema({
   date: {
     type: Date,
     default: Date.now
-  }
+  },
+  // cuando el usario a ingresado la aplicacion no deberia ver las notas de otros usarios
+  // ya que cada usuario deberia tener sus propias notas entonces si no quiero ver esto lo que voy a 
+  // hacer es enlanzar cada nota con el id del usuario
+  // vamos a crear una propiedad llamada user, aqui nosotros podriamos amacenar el object id de cada usario
+  // para cada nota es decir cada nota estara enlazada a un id de usuario pero en este caso voy a serlo
+  // mucho mas sencillo voy a crear un tipo de datos string y lo que voy hacer es que este user va almacenar ese 
+  // id de usuario ahora en que momento va almacenar este nuevo id, en el momento que se crea una nota nueva 
+  // es decir voy a ir en las rutas de notes en routes/notes.js y voy a buscar esa seccion en donde se crea
+  // la nota nueva vamos a ir en la seccion post ya que es en esa parte adonde se crea.
+  user: { type: String }
 });
 
 //voy a utilizar desde mongoose el modelo para utlizar el modelo necesito dos cosas
